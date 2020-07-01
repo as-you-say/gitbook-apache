@@ -1,4 +1,4 @@
-# Apache 설치하기
+# CentOS 7 에서 설치하기
 
 ## CentOS 7 에서 설치하기
 

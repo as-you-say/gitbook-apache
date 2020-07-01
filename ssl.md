@@ -18,6 +18,99 @@
 
 
 
+```text
+yum install mod_ssl openssl
+```
+
+
+
+```text
+# Generate private key 
+openssl genrsa -out ca.key 2048 
+
+# Generate CSR 
+openssl req -new -key ca.key -out ca.csr
+
+# Generate Self Signed Key
+openssl x509 -req -days 365 -in ca.csr -signkey ca.key -out ca.crt
+
+# Copy the files to the correct locations
+cp ca.crt /etc/pki/tls/certs
+cp ca.key /etc/pki/tls/private/ca.key
+cp ca.csr /etc/pki/tls/private/ca.csr
+```
+
+
+
+셀리눅스 사용시 참고사
+
+```text
+restorecon -RvF /etc/pki
+vi +/SSLCertificateFile /etc/httpd/conf.d/ssl.conf
+SSLCertificateFile /etc/pki/tls/certs/ca.crt
+SSLCertificateKeyFile /etc/pki/tls/private/ca.key
+/etc/init.d/httpd restart
+```
+
+
+
+SSL 인증서 및 https 포트 추
+
+```text
+NameVirtualHost *:443
+
+<VirtualHost *:443>
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/ca.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/ca.key
+    <Directory /var/www/vhosts/yoursite.com/httpsdocs>
+    AllowOverride All
+    </Directory>
+    DocumentRoot /var/www/vhosts/yoursite.com/httpsdocs
+    ServerName yoursite.com
+</VirtualHost>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 우분투 버전별 정리
