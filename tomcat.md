@@ -1,79 +1,50 @@
-# Tomcat 설치하기
-
-## wget 패키지 설치
+# Tomcat 연동하기
 
 ```text
-yum install -y wget
-```
+1. OPEN JDK
+- yum 패키지로 설치
 
-## 다운로드
+2. 톰캣
+- wget 으로 압축파일 원하는버전 다운
+- 압축 풀기
+- 서비스 등록 (수동)
+- 켜기
+- 8080 포트 페이지 확인
+- 끄기
+- server.xml 8080 막기
 
-```text
-wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.22/bin/apache-tomcat-8.0.22.tar.gz
-```
+3. 아파치
+- yum 패키지로 설치
+- 켜기
+- 80 포트 페이지 확인
 
-## 압축풀기
+4. 톰캣 아파치 커넥터
+- 압축풀기
+- 컴파일
+- 설치
+- mod_jk.so 복사해서 아파치 모듈에 넣기
 
-```text
-tar -zxvf apache-tomcat-8.0.22.tar.gz
-```
+5. 아파치
+- workers.properties 파일 생성
+worker.list=worker1
+worker.worker1.type=ajp13         # AJP1.3 프로토콜을 사용
+worker.worker1.host=localhost     # 톰캣은 local에서 돌고 있습니다.
+worker.worker1.port=8009	       # 연결할 톰캣의 포트 번호
 
-## 폴더이동
+- httpd.conf 설정 추가
+LoadModule jk_module            modules/mod_jk.so
+<IfModule mod_jk.c>
+        JkWorkersFile /usr/local/apache/apache2.0.64/conf/workers.properties
+        JkLogFile /usr/local/apache/apache2.0.64/logs/mod_jk.log
+        JkLogLevel info
+        JkLogStampFormat "[%a %b %d %H:%M:%S %Y]
+        JkShmFile /usr/local/apache/apache2.0.64/logs/mod_jk.shm
+        JkMount /* worker1
+</IfModule>
 
-```text
-mkdir -p /usr/local/tomcat
-mv ./apache-tomcat-8.0.22 /usr/local/tomcat
-```
+- 아파치 재시작
+service httpd restart
 
-## 서비스 등록
-
-```text
-cd /etc/init.d
-touch tomcat
-chmod 755 tomcat
-echo '#!/bin/sh' >> tomcat
-echo '# chkconfig: 345 85 15' >> tomcat 
-echo '# description: apache tomcat 8.x' >> tomcat
-echo '# processname: tomcat' >> tomcat
-echo 'export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk' >> tomcat
-echo 'export JRE_HOME=/usr/lib/jvm/jre-1.8.0-openjdk' >> tomcat
-echo 'export CATALINA_HOME=/usr/local/tomcat/apache-tomcat-8.0.22' >> tomcat
-echo 'export JAVA_OPTS="-server -Xms512m -Xmx512m"' >> tomcat
-echo 'export PATH=$PATH:$JAVA_HOME/bin:$CATALINA_HOME/bin' >> tomcat
-echo 'case "$1" in' >> tomcat
-echo '  start)' >> tomcat
-echo '  echo -n "Starting tomcat: "' >> tomcat
-echo '  $CATALINA_HOME/bin/catalina.sh start' >> tomcat
-echo '  echo' >> tomcat
-echo '  ;;' >> tomcat
-echo '  stop)' >> tomcat
-echo '  echo -n "Shutting down tomcat: "' >> tomcat
-echo '  $CATALINA_HOME/bin/catalina.sh stop' >> tomcat
-echo '  echo' >> tomcat
-echo '  ;;' >> tomcat
-echo '  restart)' >> tomcat
-echo '  $0 stop' >> tomcat
-echo '  sleep 2' >> tomcat
-echo '  $0 start' >> tomcat
-echo '  ;;' >> tomcat
-echo '  *)' >> tomcat
-echo '  echo "Usage: $0 {start|stop|restart}"' >> tomcat
-echo '  exit 1' >> tomcat
-echo 'esac' >> tomcat
-echo 'exit 0' >> tomcat
-chkconfig --add tomcat
-```
-
-## 포트허용
-
-```text
-firewall-cmd --permanent --zone=public --add-port=8080/tcp
-firewall-cmd --reload
-```
-
-## 실행하기
-
-```text
-service tomcat start
+- 80 포트 접속시 톰캣페이지가 보이는지 확인
 ```
 
