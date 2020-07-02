@@ -62,7 +62,7 @@ NameVirtualHost *:443
     <Directory /리소스 루트폴더>
     AllowOverride All
     </Directory>
-    DocumentRoot /리소스 루트폴
+    DocumentRoot /리소스 루트폴더
     ServerName localhost
 </VirtualHost>
 ```
