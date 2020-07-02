@@ -59,10 +59,10 @@ NameVirtualHost *:443
     SSLEngine on
     SSLCertificateFile /etc/pki/tls/certs/ca.crt
     SSLCertificateKeyFile /etc/pki/tls/private/ca.key
-    <Directory /var/www/vhosts/localhost/httpsdocs>
+    <Directory /리소스 루트폴더>
     AllowOverride All
     </Directory>
-    DocumentRoot /var/www/vhosts/localhost/httpsdocs
+    DocumentRoot /리소스 루트폴
     ServerName localhost
 </VirtualHost>
 ```
