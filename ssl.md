@@ -14,10 +14,6 @@
 물론 발급받을시 서명정보를 입력하기 때문에 그 정보가 인증서에 잘 담겨져 있습니다.  
 그러므로 웹 서버에서는 개발시에는 사설 인증키를 적용하여 처리한 후, 개발 완료시에 인증서 및 도메인을 적용하여 웹서버 설정을 변경하시는 것을 추천합니다!
 
-
-
-
-
 ```text
 yum install mod_ssl openssl
 ```
@@ -42,7 +38,7 @@ cp ca.csr /etc/pki/tls/private/ca.csr
 
 
 
-셀리눅스 사용시 참고사
+셀리눅스 사용시 참고사항
 
 ```text
 restorecon -RvF /etc/pki
