@@ -59,11 +59,11 @@ NameVirtualHost *:443
     SSLEngine on
     SSLCertificateFile /etc/pki/tls/certs/ca.crt
     SSLCertificateKeyFile /etc/pki/tls/private/ca.key
-    <Directory /var/www/vhosts/yoursite.com/httpsdocs>
+    <Directory /var/www/vhosts/localhost/httpsdocs>
     AllowOverride All
     </Directory>
-    DocumentRoot /var/www/vhosts/yoursite.com/httpsdocs
-    ServerName yoursite.com
+    DocumentRoot /var/www/vhosts/localhost/httpsdocs
+    ServerName localhost
 </VirtualHost>
 ```
 
