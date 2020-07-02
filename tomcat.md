@@ -1,4 +1,6 @@
-# Tomcat 연동하기
+# Tomcat 설치하기
+
+
 
 ```text
 1. OPEN JDK
