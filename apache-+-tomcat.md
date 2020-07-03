@@ -82,7 +82,7 @@ ServerAdmin root@localhost
 ServerName localhost
 <Directory />
     AllowOverride none
-    Require all granted
+    Require all granted 요거 요거 요거 요거 요거 핵심이다!!!
 </Directory>
 DocumentRoot "/var/www/html"
 <Directory "/var/www">
