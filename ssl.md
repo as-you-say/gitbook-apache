@@ -22,18 +22,18 @@ yum install mod_ssl openssl
 
 ```text
 # Generate private key 
-openssl genrsa -out ca.key 2048
+openssl genrsa -out ssl.key 2048
 
 # Generate CSR 
-openssl req -new -key ca.key -out ca.csr
+openssl req -new -key ssl.key -out ssl.csr
 
 # Generate Self Signed Key
-openssl x509 -req -days 365 -in ca.csr -signkey ca.key -out ca.crt
+openssl x509 -req -days 365 -in ssl.csr -signkey ssl.key -out ssl.crt
 
 # Copy the files to the correct locations
-cp ca.crt /etc/pki/tls/certs
-cp ca.key /etc/pki/tls/private/ca.key
-cp ca.csr /etc/pki/tls/private/ca.csr
+cp ssl.crt /etc/pki/tls/certs
+cp ssl.key /etc/pki/tls/private/ssl.key
+cp ssl.csr /etc/pki/tls/private/ssl.csr
 ```
 
 
@@ -50,20 +50,24 @@ SSLCertificateKeyFile /etc/pki/tls/private/ca.key
 
 
 
-SSL 인증서 및 https 포트 추
+SSL 인증서 및 https 포트 상단에 추
 
 ```text
 NameVirtualHost *:443
 
 <VirtualHost *:443>
     SSLEngine on
-    SSLCertificateFile /etc/pki/tls/certs/ca.crt
-    SSLCertificateKeyFile /etc/pki/tls/private/ca.key
-    <Directory /리소스 루트폴더>
-    AllowOverride All
+    SSLCertificateFile /etc/pki/tls/certs/ssl.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/ssl.key
+    <Directory /톰캣폴더/webapps>
+      Options Indexes FollowSymLinks
+      AllowOverride none
+      Require all granted
     </Directory>
-    DocumentRoot /리소스 루트폴더
+    DocumentRoot /톰캣폴/webapps/ROOT
     ServerName localhost
+
+    JkMount /* ajp13
 </VirtualHost>
 ```
 
