@@ -22,7 +22,7 @@ yum install mod_ssl openssl
 
 ```text
 # Generate private key 
-openssl genrsa -out ca.key 2048 
+openssl genrsa -out ca.key 2048
 
 # Generate CSR 
 openssl req -new -key ca.key -out ca.csr
