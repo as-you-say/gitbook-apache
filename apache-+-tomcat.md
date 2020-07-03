@@ -26,6 +26,10 @@ tar -zxvf tomcat-connectors-1.2.48-src.tar.gz
 
 ## 커넥터 컴파일 및 설치
 
+기존에 모듈이 존재할 수도 있지만, 이미 존재하는 모듈이 잘 작동하지 않을 수 있다.
+
+따라서 기존 환경에 맞도록 컴파일 해서 커넥터를 사용하는 것이다.
+
 ```text
 cd tomcat-connectors-1.2.48-src/native
 ./configure --with-apxs=/usr/bin/apxs
